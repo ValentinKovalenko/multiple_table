@@ -1,79 +1,85 @@
 import React from 'react';
-import {useState, useEffect} from "react";
+import * as yup from "yup";
+import {Formik} from "formik";
 
 const Login = () => {
 
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [emailDirty, setEmailDirty] = useState(false)
-    const [passwordDirty, setPasswordDirty] = useState(false)
-    const [emailError, setEmailError] = useState('Введіть емейл')
-    const [passwordError, setPasswordError] = useState('Введіть пароль')
-    const [formValid, setFormValid]=useState(false)
-
-    useEffect(()=> {
-        if (emailError || passwordError) {
-            setFormValid(false)
-        }else {
-            setFormValid(true)
-        }
-    }, [emailError, passwordError])
-
-    const emailHandler = (e) =>{
-        setEmail(e.target.value)
-        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        if (!re.test(String(e.target.value).toLowerCase())){
-            setEmailError('Емейл не коректний')
-        }else {
-            setEmailError('')
-        }
-    }
-
-    const passwordHandler = (e) =>{
-        setPassword (e.target.value)
-        if (e.target.value.length < 3 ||e.target.value.length >8){
-            setPasswordError ('Пароль повинен бути від 3 до 8')
-            if (!e.target.value){
-                setPasswordError('Введіть пароль')
-            }
-        } else {
-            setPasswordError('')
-        }
-    }
-
-    const blurHandler = (e) => {
-        switch (e.target.name) {
-            case 'email':
-                setEmailDirty(true)
-                break
-            case 'password':
-                setPasswordDirty(true)
-                break
-        }
-    }
-
-
+    const validationsSchema = yup.object().shape({
+        email: yup.string().email('Введіть правильний email').required('Поле не повинно бути пустим'),
+        password: yup.string().typeError('Повинні бути букви').required('Поле не повинно бути пустим').min(8, 'пароль повинен бути більший 8 символів'),
+    })
 
     return (
-        <div className='jumbotron'>
-            <form>
-                <div className="form-group mx-sm-5 mb-2">
-                    <label htmlFor="exampleInputEmail1">Email address</label>
-                    {(emailDirty && emailError) && <div style={{color: 'red'}}>{emailError}</div>}
-                    <input type="email" onChange={e => emailHandler(e)} value={email} onBlur={e => blurHandler(e)} className="form-control"
-                           aria-describedby="emailHelp"
-                           placeholder="Enter email"/>
+        <div>
+            <Formik
+                initialValues={{
+                    name: '',
+                    lastName: '',
+                    email: '',
+                    password: ''
+                }}
+                validateOnBlur
+                onSubmit={(values) => {
+                    console.log(values)
+                }}
+                validationSchema={validationsSchema}
+            >
+                {({
+                      values,
+                      errors,
+                      touched,
+                      handleChange,
+                      handleBlur,
+                      isValid,
+                      handleSubmit,
+                      dirty
+                  }) => (
+                    <form className='jumbotron'>
+                        <div className="form-group mx-sm-5 mb-2">
+                            <label htmlFor="exampleInputEmail1">Email address</label>
+                            <input type='email'
+                                   className="form-control"
+                                   placeholder="Enter email"
+                                /*id="exampleInputEmail1"*/
+                                /*aria-describedby="emailHelp"*/
+                                   name='email'
+                                   onChange={handleChange}
+                                   onBlur={handleBlur}
+                                   value={values.email}
+                            />
+                            {touched.email && errors.email && <p className='text-danger'>{errors.email}</p>}
+                        </div>
 
-                </div>
-                <div className="form-group mx-sm-5 mb-2">
-                    <label htmlFor="exampleInputPassword1">Password</label>
-                    {(passwordError && passwordDirty) && <div style={{color: 'red'}}>{passwordError}</div>}
-                    <input type="password" onChange={e=>passwordHandler(e)} value={password} onBlur={e => blurHandler(e)} className="form-control"
-                            placeholder="Password"/>
-                            <button disabled={!formValid} type='submit'>Login</button>
-                </div>
-               {/* <NavLink className="nav-link active text-dark form-group mx-sm-5 mb-2" to="/test">Login</NavLink>*/}
-            </form>
+                        <div className="form-group mx-sm-5 mb-2">
+                            <label htmlFor="exampleInputPassword1">Password</label>
+                            <input type="password"
+                                   className="form-control"
+                                   placeholder="Password"
+                                   id="exampleInputPassword1"
+                                   name='password'
+                                   onChange={handleChange}
+                                   onBlur={handleBlur}
+                                   value={values.password}
+                            />
+                            {touched.password && errors.password && <p className='text-danger'>{errors.password}</p>}
+                        </div>
+
+                        <div className="form-group form-check mx-sm-5 mb-2">
+                            <input type="checkbox" className="form-check-input" id="exampleCheck1"/>
+                            <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
+                        </div>
+                        <button type="submit"
+                                className="btn btn-primary mx-sm-5 mb-2"
+                                disabled={!isValid && !dirty}
+                                onClick={handleSubmit}
+                        >Submit
+                        </button>
+                    </form>
+
+
+                )}
+
+            </Formik>
         </div>
     )
 }
