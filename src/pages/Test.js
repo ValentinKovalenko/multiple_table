@@ -9,21 +9,13 @@ const Test = () => {
     let numberTwo = Math.floor((Math.random() * 8) + 2);
     let multipleResult = numberOne * numberTwo;
 
-
-
     const [counter, setCounter] = useState(24)
 
     let decrement = () => {
         setCounter(counter - 1)
     }
-
     let meRef = React.createRef();
-
-
    /* const [userResult, setUserResult] = useState('')*/
-
-
-
 
     return (
 <div>
