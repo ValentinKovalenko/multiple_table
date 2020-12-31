@@ -90,10 +90,7 @@ const Register = () => {
                             />
                             {touched.name && errors.name && <p className='text-danger'>{errors.name}</p>}
                         </div>
-                        <div className="form-group form-check mx-sm-5 mb-2">
-                            <input type="checkbox" className="form-check-input" id="exampleCheck1"/>
-                            <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
-                        </div>
+
                         <button type="submit"
                                 className="btn btn-primary mx-sm-5 mb-2"
                                 disabled={!isValid && !dirty}

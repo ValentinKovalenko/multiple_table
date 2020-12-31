@@ -1,6 +1,4 @@
 import React, {useState} from 'react';
-import Timer from "../component/Timer";
-import * as yup from "yup";
 import {Formik} from "formik";
 
 
@@ -45,9 +43,7 @@ const Test = () => {
 
         <div className='jumbotron' >
            <h3> Залишилось Виразів:  {counter}</h3>
-            <div>
-            <Timer/>
-            </div>
+
             <input value={numberOne}/>
             &nbsp;
             <input value={numberTwo}/>

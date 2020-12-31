@@ -1,25 +1,18 @@
 import React from 'react'
-import {BrowserRouter, Route} from 'react-router-dom'
-
-import Register from "./pages/Register";
-import Test from "./pages/Test";
+import {BrowserRouter, } from 'react-router-dom'
 import Header from "./pages/Header";
 import './App.css';
-import Login from "./pages/Login";
-import Result from "./pages/Resalt";
+import {useRoutes} from "./pages/routes";
+
 
 
 function App() {
+    const routes = useRoutes(false)
     return (
         <BrowserRouter>
-            <div className='container '>
+            <div className='container'>
                 <Header/>
-                <div>
-                    <Route path='/login' render={() => <Login/>}/>
-                    <Route path='/register' render={() => <Register/>}/>
-                    <Route path='/test' render={() => <Test/>}/>
-                    <Route path='/result' render={() => <Result/>}/>
-                </div>
+                {routes}
             </div>
         </BrowserRouter>
     );
