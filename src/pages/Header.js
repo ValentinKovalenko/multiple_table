@@ -8,11 +8,13 @@ const Header = () => {
             <h3>Multiplication table</h3>
             <nav className="navbar navbar-expand-lg navbar-light ">
                 <div className="container-fluid">
-                    <NavLink className="nav-link active text-dark" aria-current="page" to="/login" >login</NavLink>
+                    <NavLink className="nav-link active text-dark" aria-current="page" to="/login" exsect>login</NavLink>
                     <NavLink className="nav-link text-dark" to="/register">Registration</NavLink>
+                    <NavLink className="nav-link text-dark" to="/test">Test</NavLink>
                 </div>
             </nav>
         </div>
-            )
-            }
-            export default Header;
+
+    )
+}
+export default Header;

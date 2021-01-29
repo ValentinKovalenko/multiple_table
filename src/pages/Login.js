@@ -2,6 +2,7 @@ import React from 'react';
 import * as yup from "yup";
 import {Formik} from "formik";
 
+
 const Login = () => {
 
     const validationsSchema = yup.object().shape({
@@ -20,7 +21,6 @@ const Login = () => {
                 }}
                 validateOnBlur
                 onSubmit={(values) => {
-                    console.log(values)
                 }}
                 validationSchema={validationsSchema}
             >
@@ -40,14 +40,12 @@ const Login = () => {
                             <input type='email'
                                    className="form-control"
                                    placeholder="Enter email"
-                                /*id="exampleInputEmail1"*/
-                                /*aria-describedby="emailHelp"*/
                                    name='email'
                                    onChange={handleChange}
                                    onBlur={handleBlur}
                                    value={values.email}
                             />
-                            {touched.email && errors.email && <p className='text-danger'>{errors.email}</p>}
+                            {touched.email && errors.email && <p>{errors.email}</p>}
                         </div>
 
                         <div className="form-group mx-sm-5 mb-2">
@@ -61,7 +59,7 @@ const Login = () => {
                                    onBlur={handleBlur}
                                    value={values.password}
                             />
-                            {touched.password && errors.password && <p className='text-danger'>{errors.password}</p>}
+                            {touched.password && errors.password && <p>{errors.password}</p>}
                         </div>
 
                         <button type="submit"

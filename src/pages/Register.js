@@ -1,15 +1,22 @@
 import React from 'react';
-import {Formik,} from 'formik';
+import {Form, Formik,} from 'formik';
 import * as yup from 'yup';
+import {useHttp} from "../hooks/http.hook";
 
 const Register = () => {
-
     const validationsSchema = yup.object().shape({
         name: yup.string().typeError('Повинні бути букви').required('Поле не повинно бути пустим'),
         email: yup.string().email('Введіть правильний email').required('Поле не повинно бути пустим'),
         password: yup.string().typeError('Повинні бути букви').required('Поле не повинно бути пустим').min(8, 'пароль повинен бути більший 8 символів'),
         lastName: yup.string().typeError('Повинні бути букви').required('Поле не повинно бути пустим')
     })
+    let values;
+    /* const registerHandler = async () =>{
+         try {
+             const data = await request('/api/auth/register', 'POST',values)
+             console.log('Data', data)
+         }catch (e){}
+     }*/
 
     return (
         <div>
@@ -23,6 +30,7 @@ const Register = () => {
                 validateOnBlur
                 onSubmit={(values) => {
                     console.log(values)
+                    values = values;
                 }}
                 validationSchema={validationsSchema}
             >
@@ -41,14 +49,12 @@ const Register = () => {
                             <input type='email'
                                    className="form-control"
                                    placeholder="Enter email"
-                                /*id="exampleInputEmail1"*/
-                                /*aria-describedby="emailHelp"*/
                                    name='email'
                                    onChange={handleChange}
                                    onBlur={handleBlur}
                                    value={values.email}
                             />
-                            {touched.email && errors.email && <p className='text-danger'>{errors.email}</p>}
+                            {touched.email && errors.email && <p>{errors.email}</p>}
                         </div>
 
                         <div className="form-group mx-sm-5 mb-2">
@@ -62,7 +68,7 @@ const Register = () => {
                                    onBlur={handleBlur}
                                    value={values.password}
                             />
-                            {touched.password && errors.password && <p className='text-danger'>{errors.password}</p>}
+                            {touched.password && errors.password && <p>{errors.password}</p>}
                         </div>
                         <div className="form-group mx-sm-5 mb-2">
                             <label htmlFor="exampleInputPassword1">Last name</label>
@@ -75,7 +81,7 @@ const Register = () => {
                                    onBlur={handleBlur}
                                    value={values.lastName}
                             />
-                            {touched.lastName && errors.lastName && <p className='text-danger'>{errors.lastName}</p>}
+                            {touched.lastName && errors.lastName && <p>{errors.lastName}</p>}
                         </div>
                         <div className="form-group mx-sm-5 mb-2">
                             <label htmlFor="exampleInputPassword1">Name</label>
@@ -88,7 +94,7 @@ const Register = () => {
                                    onBlur={handleBlur}
                                    value={values.name}
                             />
-                            {touched.name && errors.name && <p className='text-danger'>{errors.name}</p>}
+                            {touched.name && errors.name && <p>{errors.name}</p>}
                         </div>
 
                         <button type="submit"

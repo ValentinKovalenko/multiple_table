@@ -1,61 +1,76 @@
 import React, {useState} from 'react';
-import {Formik} from "formik";
+import {Form, Formik} from "formik";
+import * as yup from "yup";
 
 
 const Test = () => {
-    let numberOne = Math.floor((Math.random() * 8) + 2);
-    let numberTwo = Math.floor((Math.random() * 8) + 2);
-    let multipleResult = numberOne * numberTwo;
-
+    const validationsSchema = yup.object().shape({
+        Result: yup.number()
+    })
+    let d = 0.5
+    let numberOne = Math.floor((Math.random() * 8) + 2)
+    let numberTwo = Math.floor((Math.random() * 8) + 2)
+    let myResult = numberOne * numberTwo;
+    const [userResult, setUserResult] = useState(0)
     const [counter, setCounter] = useState(24)
 
-    let decrement = () => {
+
+    const onClick = (Result) => {
+        console.log(Result)
+        if (myResult == Result) {
+            setUserResult(userResult + d)
+            console.log(userResult)
+        }
         setCounter(counter - 1)
+        if (counter === 1) {
+            console.log(userResult)
+        }
     }
-    let meRef = React.createRef();
-   /* const [userResult, setUserResult] = useState('')*/
 
     return (
-<div>
-<Formik
-    initialValues={{
-        numberOne: 'numberOne',
-        numberTwo: 'numberTwo',
-        multipleResult: '',
+        <Formik
+            initialValues={{
+                numberOne: 'numberOne',
+                numberTwo: 'numberTwo',
+                Result: '',
+            }}
+            onSubmit={(values, action) => {
+                action.resetForm({})
+                onClick(values.Result)
+            }}
+            validationSchema={validationsSchema}
+        >
+            {({
+                  values,
+                  handleChange,
+                  handleSubmit,
+              }) => (
+                <Form>
+                    <div className='jumbotron'>
+                        <h3 className='test'> Залишилось Виразів: {counter}</h3>
+                        <div className='test1'>
 
-    }}
-    validateOnBlur
-    onSubmit={(values) => {
-        console.log(values)
-    }}
-    /*validationSchema={validationsSchema}*/
->
-    {({
-        values,
-        errors,
-        touched,
-        handleChange,
-        handleBlur,
-        isValid,
-        handleSubmit,
-        dirty
-    })=>(
 
-        <div className='jumbotron' >
-           <h3> Залишилось Виразів:  {counter}</h3>
+                            <input value={numberOne}/>
+                            &nbsp;
+                            <input value={numberTwo}/>
+                            &nbsp;
+                            <input type='text'
+                                   name='Result'
+                                   onChange={handleChange}
+                                   value={values.Result}
+                                   onSubmit={handleSubmit}
+                            />
+                            &nbsp;
+                            <button onSubmit={handleSubmit} disabled={counter === 0}>Ok</button>
+                        </div>
+                        Ваша оцінта: {userResult}
+                    </div>
+                </Form>
+            )}
+        </Formik>
 
-            <input value={numberOne}/>
-            &nbsp;
-            <input value={numberTwo}/>
-            &nbsp;
-            <input ref={meRef}/>
-            &nbsp;
-            <button onClick={decrement} >Ok</button>
-        </div>
-        )}
-</Formik>
-</div>
     )
-   }
+}
 
 export default Test;
