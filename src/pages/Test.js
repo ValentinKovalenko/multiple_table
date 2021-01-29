@@ -22,7 +22,7 @@ const Test = () => {
             console.log(userResult)
         }
         setCounter(counter - 1)
-        if (counter === 1) {
+        if (!counter) {
             console.log(userResult)
         }
     }
@@ -64,7 +64,7 @@ const Test = () => {
                             &nbsp;
                             <button onSubmit={handleSubmit} disabled={counter === 0}>Ok</button>
                         </div>
-                        Ваша оцінта: {userResult}
+                        <div className='test1'>Ваша оцінта: {userResult}</div>
                     </div>
                 </Form>
             )}
